@@ -61,7 +61,7 @@ const Sidebar = () => {
                 >
                   <img src={assets.message_icon} alt="" />
                   <p>
-                    {item.slice(0, 24)} {item.length > 24 && "..."}
+                    {item.prompt.slice(0, 24)} {item.prompt.length > 24 && "..."}
                   </p>
                 </div>
               );

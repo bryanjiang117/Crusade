@@ -22,6 +22,14 @@ const ContextProvider = (props) => {
   }
 
   async function generate(prompt) {
+    const history = prevPrompts.reduce((acc, cur) => {
+      acc.push({role: 'user', parts: [cur.prompt]});
+      acc.push({role: 'model', parts: [cur.response]});
+      return acc
+    }, []);
+    
+    console.log('my history', history);
+
     const res = await fetch(`${import.meta.env.VITE_API_URL}/generate`, {
       method: 'POST',
       headers: {
@@ -29,7 +37,7 @@ const ContextProvider = (props) => {
       },
       body: JSON.stringify({
         prompt: prompt,
-        history: prevPrompts,
+        history: history,
       })
     });
     
@@ -55,10 +63,8 @@ const ContextProvider = (props) => {
     } else {
       setRecentPrompt(input);
       response = await generate(input);
-      setPrevPrompts((prev) => [...prev, 
-        {'role': 'user', 'parts': [input]},
-        {'role': 'model', 'parts': [response]}
-      ]);
+      
+      setPrevPrompts((prev) => [...prev, {'prompt': input, 'response': response}]);
       console.log(prevPrompts);
     }
     let newResponseArray = Markdown(response).split(" ");
