@@ -14,7 +14,7 @@ const ContextProvider = (props) => {
   const delayPara = (index, nextWord) => {
     setTimeout(() => {
       setResultData((prev) => prev + nextWord);
-    }, 40 * index);
+    }, 30 * index);
   };
 
   function Markdown(markdownData) {
@@ -28,7 +28,6 @@ const ContextProvider = (props) => {
       return acc
     }, []);
     
-    console.log('my history', history);
 
     const res = await fetch(`${import.meta.env.VITE_API_URL}/generate`, {
       method: 'POST',
@@ -47,10 +46,13 @@ const ContextProvider = (props) => {
     return response;
   }
 
-  const newChat = () => {
-    setLoading(false);
-    setShowResult(false);
+  const newChat = async (prompt = "hi") => {
+
+    // when a new chat is started without prompt, make gemini generate default greeting
+
+    await onSent(prompt);
   };
+
   const onSent = async (prompt) => {
     setInput("");
     setResultData("");
@@ -88,6 +90,7 @@ const ContextProvider = (props) => {
     setInput,
     newChat,
   };
+
   return (
     <Context.Provider value={contextValue}>{props.children}</Context.Provider>
   );

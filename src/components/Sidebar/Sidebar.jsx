@@ -40,6 +40,10 @@ const Sidebar = () => {
           className="new-chat"
           data-tooltip-id="new-chat"
           data-tooltip-content="New Chat"
+          style={{ 
+            maxWidth: !extended ? "200px" : "40px",
+            transition: !extended ? "max-width 1s ease-in-out" : "max-width 0s"
+          }}
         >
           <img src={assets.plus_icon} alt="" />
           <Tooltip

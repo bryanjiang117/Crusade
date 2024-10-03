@@ -15,7 +15,16 @@ const Main = () => {
     resultData,
     setInput,
     input,
+    newChat,
   } = React.useContext(Context);
+
+  const cardPrompts = [
+    "What are some long TV series similar to Game of Thrones?",
+    "Recommend me a light-hearted sitcom with no plot at all",
+    "Anime like Anohana and Violet Evergarden to make me cry",
+    "Need a comedy with plenty of sex jokes for movie night with the boys"
+  ];
+
   return (
     <div className="main">
       <div className="nav">
@@ -23,28 +32,23 @@ const Main = () => {
       </div>
       <div className="main-container">
         {!showResult ? (
-          <>
-            <div className="greet">
-              <p>
-                <span>Crusader</span>
-              </p>
-              <p>Where would you like to go?</p>
-            </div>
-            <div className="cards">
-              <div className="card">
-                <p>Draft an email with a packing list for an upcoming trip</p>
+            <>
+              <div className="greet">
+                <p>
+                  <span>Crusader</span>
+                </p>
+                <p>Where would you like to go?</p>
               </div>
-              <div className="card">
-                <p>Explain the following code step-by-step in detail</p>
+              <div className="cards">
+                {cardPrompts.map((prompt, i) => {
+                  return (
+                    <div className="card" key={i} onClick={() => newChat(prompt)}>
+                      <p>{prompt}</p>
+                    </div>
+                  );
+                })}
               </div>
-              <div className="card">
-                <p>Help me get organized with a list of 10 tips</p>
-              </div>
-              <div className="card">
-                <p>Create an image & bedtime story</p>
-              </div>
-            </div>
-          </>
+            </>
         ) : (
           <div className="result">
             <div className="result-title">
@@ -53,7 +57,7 @@ const Main = () => {
             </div>
             <div className="result-data">
               <img
-                src={loading ? assets.gemini_gif : assets.gemini_icon}
+                src={assets.gemini_icon}
                 alt=""
               />
               {loading ? (
@@ -111,13 +115,6 @@ const Main = () => {
               )}
             </div>
           </div>
-          <p className="bottom-info">
-            Gemini may display inaccurate info, including about people, so
-            double-check its responses.{" "}
-            <a href="https://support.google.com/gemini?p=privacy_notice">
-              Your privacy and Gemini Apps
-            </a>
-          </p>
         </div>
       </div>
     </div>

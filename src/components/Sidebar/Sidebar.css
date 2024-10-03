@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: space-between;
   background-color: #f0f4f9;
-  padding: 25px 15px;
+  padding: 20px 15px 25px 15px;
   transition: width 0.5s ease;
 }
 
@@ -40,7 +40,7 @@
   line-height: 1.2rem;
   color: #444746;
   cursor: pointer;
-  transition: transform 1s ease-in-out;
+  overflow: hidden;
 }
 
 .sidebar .new-chat:hover {
@@ -50,9 +50,9 @@
 .sidebar .new-chat p {
   text-wrap: nowrap;
   animation: fadeIn 1s;
-
+  margin: 0 5px -2px -5px;
+  font-weight: 600;
 }
-
 
 .sidebar .new-chat img {
   width: 16px;
