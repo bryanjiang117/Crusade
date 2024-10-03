@@ -6,7 +6,7 @@ import uuid
 
 load_dotenv()
 
-genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
+genai.configure(api_key=os.getenv('GOOGLE_GEN_KEY'))
 
 model = genai.GenerativeModel('gemini-1.5-flash')
 
