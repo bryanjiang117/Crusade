@@ -2,6 +2,7 @@ import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 import os
 from dotenv import load_dotenv
+import uuid
 
 load_dotenv()
 
@@ -33,10 +34,16 @@ model = genai.GenerativeModel('gemini-1.5-flash')
 #   }
 # ]
 
-def gemini_generate(prompt, history):
-  chatSession = model.start_chat(
-    history=history,
-  )
-  result = chatSession.send_message(prompt)
+sessions = {}
+
+def gemini_generate(prompt, session_id):
+  result = sessions[session_id].send_message(prompt)
   return result.text
+
+def gemini_new_chat():
+  chatSession = model.start_chat()
+  session_id = str(uuid.uuid4())
+  sessions[session_id] = chatSession
+  return session_id
+
 

@@ -9,13 +9,15 @@ const Main = () => {
   const {
     onSent,
     recentPrompt,
-    showResult,
+    prevPrompts,
+    prevResults,
     loadingState,
     loading,
     resultData,
     setInput,
     input,
-    newChat,
+    startChat,
+    startOfChat,
   } = React.useContext(Context);
 
   const cardPrompts = [
@@ -25,13 +27,18 @@ const Main = () => {
     "Need a comedy with plenty of sex jokes for movie night with the boys"
   ];
 
+  React.useEffect(() => {
+    startChat();
+    console.log(startOfChat);
+  }, []);
+
   return (
     <div className="main">
       <div className="nav">
         <p>Crusader</p>
       </div>
       <div className="main-container">
-        {!showResult ? (
+        {startOfChat ? (
             <>
               <div className="greet">
                 <p>
@@ -42,7 +49,7 @@ const Main = () => {
               <div className="cards">
                 {cardPrompts.map((prompt, i) => {
                   return (
-                    <div className="card" key={i} onClick={() => newChat(prompt)}>
+                    <div className="card" key={i} onClick={() => onSent(prompt)}>
                       <p>{prompt}</p>
                     </div>
                   );
@@ -50,29 +57,40 @@ const Main = () => {
               </div>
             </>
         ) : (
-          <div className="result">
-            <div className="result-title">
-              <img src={assets.user_icon} alt="" />
-              <p>{recentPrompt}</p>
-            </div>
-            <div className="result-data">
-              <img
-                src={assets.gemini_icon}
-                alt=""
-              />
-              {loading ? (
-                <div className="loader">
-                  <hr />
-                  <hr />
-                  <hr />
+          <div className="result-container">
+            {[...prevPrompts.slice(0, -1).map((prompt, i) => ({
+              prompt: prompt, 
+              result: prevResults[i],
+            })),
+            ({
+              prompt: recentPrompt,
+              result: resultData,
+            })].map(({prompt: prompt, result: result}, i) => {
+              return (
+                  <div className="result" key={i}>
+                    <div className="result-title">
+                      <p>{prompt}</p>
+                    </div>
+                    <div className="result-data">
+                      <img
+                        src={assets.gemini_icon}
+                        alt=""
+                      />
+                      {loading && i === prevPrompts.length - 1 ? (
+                        <div className="loader">
+                          <hr />
+                          <hr />
+                          <hr />
+                        </div>
+                      ) : (
+                        <p
+                          style={{ marginTop: "0px" }}
+                          dangerouslySetInnerHTML={{ __html: result }}
+                        ></p>
+                      )}
+                  </div>
                 </div>
-              ) : (
-                <p
-                  style={{ marginTop: "0px" }}
-                  dangerouslySetInnerHTML={{ __html: resultData }}
-                ></p>
-              )}
-            </div>
+              )})}
           </div>
         )}
 

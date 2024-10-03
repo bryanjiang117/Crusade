@@ -88,7 +88,6 @@
   padding: 0 20px;
   margin: auto;
   height: 100px;
-  background-color: white;
 }
 
 .main .main-bottom::before {
@@ -165,14 +164,17 @@
 
 }
 
-.main .result {
+.main .result-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   padding: 0 2rem;
-  padding-bottom: 1.5rem;
+  padding-bottom: 4rem;
   max-height: calc(100vh - 79px - 100px);
   overflow-y: scroll;
 }
 
-.main .result::-webkit-scrollbar {
+.main .result-container::-webkit-scrollbar {
   display: none;
 }
 
@@ -309,7 +311,7 @@
       font-size: 18px;
   }
 
-  .main .result {
+  .main .result-container {
       padding: 0 20px;
   }
 

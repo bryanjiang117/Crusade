@@ -48,6 +48,7 @@
 }
 
 .sidebar .new-chat p {
+  color: black;
   text-wrap: nowrap;
   animation: fadeIn 1s;
   margin: 0 5px -2px -5px;
