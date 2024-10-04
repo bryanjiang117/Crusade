@@ -69,10 +69,7 @@ const Main = () => {
 
     function shouldScroll() {
       const atBottom = scrollContainer.current.scrollTop >= scrollContainer.current.scrollHeight - scrollContainer.current.clientHeight
-      if (!userIsScrolling) {
-        return true
-      } 
-      return false
+      return !userIsScrolling;
     }
 
     if (!startOfChat && scrollContainer.current) {
