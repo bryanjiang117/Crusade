@@ -18,6 +18,7 @@ const Main = () => {
     input,
     startChat,
     startOfChat,
+    Markdown,
   } = React.useContext(Context);
   
 
@@ -74,7 +75,7 @@ const Main = () => {
       return false
     }
 
-    if (scrollContainer.current) {
+    if (!startOfChat && scrollContainer.current) {
       if (shouldScroll()) {
         scrollToBottom()
       }
@@ -142,7 +143,7 @@ const Main = () => {
                       ) : (
                         <p
                           style={{ marginTop: "0px" }}
-                          dangerouslySetInnerHTML={{ __html: result }}
+                          dangerouslySetInnerHTML={{ __html: Markdown(result) }}
                         ></p>
                       )}
                   </div>

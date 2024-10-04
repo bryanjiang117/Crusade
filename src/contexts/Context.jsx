@@ -10,7 +10,7 @@ const ContextProvider = (props) => {
   const [prevResults, setPrevResults] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [resultData, setResultData] = React.useState("");
-  const [startOfChat, setStartOfChat] = React.useState(false);
+  const [startOfChat, setStartOfChat] = React.useState(true);
   const [chatSession, setChatSession] = React.useState(null);
 
   const delayPara = (index, nextWord) => {
@@ -78,8 +78,8 @@ const ContextProvider = (props) => {
     setStartOfChat(false)
 
     // Placeholder for loading animation
-    setPrevPrompts((prev) => [...prev, ""]);
-    setPrevResults((prev) => [...prev, ""]);
+    setPrevPrompts((prev) => [...prev, null]);
+    setPrevResults((prev) => [...prev, null]);
 
     let response;
     if (prompt !== undefined) {
@@ -93,7 +93,7 @@ const ContextProvider = (props) => {
     } 
     setPrevPrompts((prev) => [...prev.slice(0, -1), prompt || input]);
     setPrevResults((prev) => [...prev.slice(0, -1), response]);
-    let newResponseArray = Markdown(response).split(" ");
+    let newResponseArray = response.split(" ");
     for (let i = 0; i < newResponseArray.length; i++) {
       const nextWord = newResponseArray[i];
       delayPara(i, nextWord + " ");
@@ -115,6 +115,7 @@ const ContextProvider = (props) => {
     setInput,
     startChat,
     startOfChat,
+    Markdown,
   };
 
   return (
