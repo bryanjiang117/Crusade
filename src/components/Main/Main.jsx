@@ -19,6 +19,7 @@ const Main = () => {
     startChat,
     startOfChat,
   } = React.useContext(Context);
+  
 
   const cardPrompts = [
     "What are some long TV series similar to Game of Thrones?",
@@ -27,10 +28,66 @@ const Main = () => {
     "Need a comedy with plenty of sex jokes for movie night with the boys"
   ];
 
+
+  // Managing the scrolling behaviour for the chat
+
+  const scrollContainer = React.useRef(null);
+  const scrollTimeout = React.useRef(null); 
+  const [userIsScrolling, setUserIsScrolling] = React.useState(false);
+
+  React.useEffect(() => {
+    scrollContainer.current = document.querySelector('.result-container');
+
+    if (scrollContainer.current) {
+
+      function handleScroll() {
+        // console.log('user is scrolling');
+        setUserIsScrolling(true);
+
+        clearTimeout(scrollTimeout.current);
+        scrollTimeout.current = setTimeout(() => {
+          setUserIsScrolling(false);
+        }, 100);
+      }
+
+      scrollContainer.current.addEventListener('wheel', handleScroll);
+
+      return () => {
+        scrollContainer.current.removeEventListener('wheel', handleScroll);
+        clearTimeout(scrollTimeout.current);
+      }
+    }
+  }, [startOfChat]);
+
+  React.useEffect(() => {
+    function scrollToBottom() {
+      setTimeout(() => {
+        scrollContainer.current.scroll({top: scrollContainer.current.scrollHeight, behavior: 'smooth'});
+      }, 100);
+    }
+
+    function shouldScroll() {
+      const atBottom = scrollContainer.current.scrollTop >= scrollContainer.current.scrollHeight - scrollContainer.current.clientHeight
+      if (!userIsScrolling) {
+        return true
+      } 
+      return false
+    }
+
+    if (scrollContainer.current) {
+      if (shouldScroll()) {
+        scrollToBottom()
+      }
+    }
+  }, [resultData])
+
+
+  // Start the chat
+
   React.useEffect(() => {
     startChat();
-    console.log(startOfChat);
   }, []);
+
 
   return (
     <div className="main">

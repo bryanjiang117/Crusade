@@ -169,9 +169,9 @@
   flex-direction: column;
   gap: 2rem;
   padding: 0 2rem;
-  padding-bottom: 4rem;
+  padding-bottom: 3rem;
   max-height: calc(100vh - 79px - 100px);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .main .result-container::-webkit-scrollbar {

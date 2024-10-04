@@ -16,7 +16,7 @@ const ContextProvider = (props) => {
   const delayPara = (index, nextWord) => {
     setTimeout(() => {
       setResultData((prev) => prev + nextWord);
-    }, 20 * index);
+    }, 10 * index);
   };
 
   function Markdown(markdownData) {
