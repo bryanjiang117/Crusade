@@ -1,4 +1,4 @@
-import os 
+import os
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
@@ -10,46 +10,41 @@ app = Flask(__name__, static_folder='../client/dist')
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-app.config['CORS_HEADERS'] = 'Content-Type' # Allows CORS for JSON resources
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_mapping(SECRET_KEY=os.getenv('FLASK_SECRET_KEY'))
 
+# Logging for debugging purposes
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
-# Serve the frontend (index.html)
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-   print(f'Path requested: {path}')
-   if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-       return send_from_directory(app.static_folder, path)
-   else:
-       return send_from_directory(app.static_folder, 'index.html')
-   
+logging.debug("App is initialized")
+
 # Serve the frontend
 @app.route('/')
 def serve_frontend():
-   print('please just work man')
+   logging.debug("Serving frontend")
    return send_from_directory(app.static_folder, 'index.html')
 
 # Serve static assets
 @app.route('/<path:path>')
 def serve_static_files(path):
+   logging.debug(f"Serving static file: {path}")
    return send_from_directory(app.static_folder, path)
 
-
-# Create an empty new chat session
+# API routes
 @app.route('/new_chat', methods=['POST'])
 def new_chat():
-  session_id = gemini_new_chat()
-  return jsonify({'session_id': session_id}), 200
+   session_id = gemini_new_chat()
+   return jsonify({'session_id': session_id}), 200
 
-# Generate a response from the LLM
 @app.route('/generate', methods=['POST'])
-def generate():  
-  data = request.json
-  prompt = data['prompt']
-  session_id = data['session_id']
-  response = gemini_generate(prompt, session_id)
-  return jsonify({'response': response}), 200
+def generate():
+   data = request.json
+   prompt = data['prompt']
+   session_id = data['session_id']
+   response = gemini_generate(prompt, session_id)
+   return jsonify({'response': response}), 200
 
 if __name__ == "__main__":
+    logging.debug("Starting app")
     app.run(host='0.0.0.0', port=8080)
