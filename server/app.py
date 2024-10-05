@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-from .gemini import gemini_generate, gemini_new_chat
+from gemini import gemini_generate, gemini_new_chat
 
 load_dotenv()
 
@@ -40,5 +40,5 @@ def generate():
   response = gemini_generate(prompt, session_id)
   return jsonify({'response': response}), 200
 
-if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8080)
