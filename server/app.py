@@ -17,7 +17,7 @@ app.config.from_mapping(SECRET_KEY=os.getenv('FLASK_SECRET_KEY'))
 # Serve the frontend
 @app.route('/')
 def serve_frontend():
-   return send_from_directory(app.static_folder, 'index.html')
+   return send_from_directory(app.static_folder, './index.html')
 
 # Serve static assets
 @app.route('/<path:path>')
@@ -41,4 +41,4 @@ def generate():
   return jsonify({'response': response}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+  app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
