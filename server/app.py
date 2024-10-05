@@ -23,6 +23,7 @@ logging.debug("App is initialized")
 @app.route('/')
 def serve_frontend():
    logging.debug("Serving frontend")
+   print(send_from_directory(app.static_folder, 'index.html'))
    return send_from_directory(app.static_folder, 'index.html')
 
 # Serve static assets
