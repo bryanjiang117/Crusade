@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-from gemini import gemini_generate, gemini_new_chat
+from .gemini import gemini_generate, gemini_new_chat
 
 load_dotenv()
 
