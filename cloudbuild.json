@@ -15,7 +15,6 @@
       "name": "gcr.io/cloud-builders/docker",
       "args": [
         "tag",
-        "crusader",
         "gcr.io/$PROJECT_ID/crusader:$COMMIT_SHA",
         "gcr.io/$PROJECT_ID/crusader:latest"
       ]
