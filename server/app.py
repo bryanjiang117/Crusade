@@ -14,11 +14,21 @@ app.config['CORS_HEADERS'] = 'Content-Type' # Allows CORS for JSON resources
 app.config.from_mapping(SECRET_KEY=os.getenv('FLASK_SECRET_KEY'))
 
 
+# Serve the frontend (index.html)
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+   print(f'Path requested: {path}')
+   if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+       return send_from_directory(app.static_folder, path)
+   else:
+       return send_from_directory(app.static_folder, 'index.html')
+   
 # Serve the frontend
 @app.route('/')
 def serve_frontend():
    print('please just work man')
-   return send_from_directory(app.static_folder, './index.html')
+   return send_from_directory(app.static_folder, 'index.html')
 
 # Serve static assets
 @app.route('/<path:path>')
