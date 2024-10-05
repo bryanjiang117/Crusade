@@ -51,7 +51,7 @@ const ContextProvider = (props) => {
     // console.log('response', response);
     return response;
   }
-
+  // change
   async function newChat() {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/new_chat`, {
       method: 'POST',
