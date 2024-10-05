@@ -17,6 +17,7 @@ app.config.from_mapping(SECRET_KEY=os.getenv('FLASK_SECRET_KEY'))
 # Serve the frontend
 @app.route('/')
 def serve_frontend():
+   print('please just work man')
    return send_from_directory(app.static_folder, './index.html')
 
 # Serve static assets
