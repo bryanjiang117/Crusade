@@ -6,7 +6,7 @@ from .gemini import gemini_generate, gemini_new_chat
 
 load_dotenv()
 
-app = Flask(__name__, static_folder='../client/dist')
+app = Flask(__name__, static_folder='../dist')
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 
