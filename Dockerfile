@@ -18,6 +18,7 @@ COPY . .
 WORKDIR /app/server
 RUN pip3 install -r requirements.txt
 
+
 WORKDIR /app
 
 # Copy the built frontend files from the frontend-build stage to the backend container
