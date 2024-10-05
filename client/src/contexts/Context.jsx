@@ -35,7 +35,7 @@ const ContextProvider = (props) => {
       history.push({role: 'model', parts: [prevResults[i]]});
     }
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/generate`, {
+    const res = await fetch('/generate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,8 +53,7 @@ const ContextProvider = (props) => {
   }
   // change
   async function newChat() {
-    console.log(`${import.meta.env.VITE_API_URL}/new_chat`);
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/new_chat`, {
+    const res = await fetch('/new_chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
