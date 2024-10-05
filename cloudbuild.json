@@ -43,7 +43,6 @@
     "gcr.io/$PROJECT_ID/crusader:$COMMIT_SHA"
   ],
   "options": {
-    "logging": "CLOUD_LOGGING_AND_STORAGE",
-    "logsBucket": "gs://gen-lang-client-0705055066_cloudbuild"
+    "logging": "CLOUD_LOGGING_ONLY"
   }
 }
