@@ -19,12 +19,23 @@ logging.basicConfig(level=logging.DEBUG)
 
 logging.debug("App is initialized")
 
-# Serve the frontend
 @app.route('/')
 def serve_frontend():
-   logging.debug("Serving frontend")
-   print(send_from_directory(app.static_folder, 'index.html'))
-   return send_from_directory(app.static_folder, 'index.html')
+    try:
+        # Log the static folder path and check if the file exists
+        index_path = os.path.join(app.static_folder, 'index.html')
+        logging.debug(f"Trying to serve index.html from: {index_path}")
+
+        if os.path.exists(index_path):
+            logging.debug("index.html found")
+        else:
+            logging.error("index.html not found")
+        
+        # Serve the file if found
+        return send_from_directory(app.static_folder, 'index.html')
+    except Exception as e:
+        logging.error(f"Error serving index.html: {e}")
+        return "Error serving file", 500
 
 # Serve static assets
 @app.route('/<path:path>')
