@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.DEBUG)
 load_dotenv()
 
 def create_app():
-  app = Flask(__name__, static_folder='../client/dist')
+  app = Flask(__name__, static_folder='../dist')
 
   CORS(app, resources={r"/*": {"origins": "*"}})
   app.config['CORS_HEADERS'] = 'Content-Type'

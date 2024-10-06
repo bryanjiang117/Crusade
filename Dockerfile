@@ -22,7 +22,7 @@ RUN pip3 install -r requirements.txt
 WORKDIR /app
 
 # Copy the built frontend files from the frontend-build stage to the backend container
-COPY --from=frontend-build /app/client/dist /app/client/dist
+COPY --from=frontend-build /app/dist /app/dist
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
