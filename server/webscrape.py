@@ -7,15 +7,18 @@ import logging
 
 load_dotenv()
 
+logging.debug(f'Reddit client ID: {os.getenv('REDDIT_CLIENT_ID')}')
+
 reddit = praw.Reddit(
-  user_agent='Reddit comment scraper for show recommendations (by Dear-Conclusion-5816)',
+  user_agent='Crusader: web app that uses LLM to recommend similar shows and movies (by Dear-Conclusion-5816)',
   client_id=os.getenv('REDDIT_CLIENT_ID'),
   client_secret=os.getenv('REDDIT_SECRET'),
   username='Dear-Conclusion-5816',
   password=os.getenv('REDDIT_PASSWORD'),
 )
 
-logging.debug(f'Reddit client ID: {os.getenv('REDDIT_CLIENT_ID')}')
+logging.debug(f'reddit user me: {reddit.user.me()}')
+
 
 def googleSearch(query: str):
     api_key = os.getenv('GOOGLE_API_KEY')
