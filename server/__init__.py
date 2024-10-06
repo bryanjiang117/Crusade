@@ -9,9 +9,7 @@ logging.basicConfig(level=logging.DEBUG)
 load_dotenv()
 
 def create_app():
-  static_folder_path = '../dist' if os.path.exists('../dist') else '../client/dist' #../client/dist is for dev environment
-  logging.debug(f'Static folder path: {static_folder_path}')
-  app = Flask(__name__, static_folder='../dist')
+  app = Flask(__name__, static_folder='../client/dist')
 
   CORS(app, resources={r"/*": {"origins": "*"}})
   app.config['CORS_HEADERS'] = 'Content-Type'
