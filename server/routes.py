@@ -1,9 +1,10 @@
 from flask import jsonify, request, send_from_directory
-from .gemini import gemini_generate, gemini_new_chat
+from .gemini import gemini_chat_generate, gemini_new_chat
 import os
 import logging
+from .webscrape import get_reddit_data
+from .keyword_extraction import get_titles
 
-logging.basicConfig(level=logging.DEBUG)
 
 def init_routes(app):
   @app.route('/')
@@ -41,5 +42,13 @@ def init_routes(app):
     data = request.json
     prompt = data['prompt']
     session_id = data['session_id']
-    response = gemini_generate(prompt, session_id)
+
+    titles = get_titles(prompt)
+    reddit_data = get_reddit_data(titles)
+    gemini_input = reddit_data + prompt
+
+    response = gemini_chat_generate(gemini_input, session_id)
+
+    print('RESPONSE', response)
+
     return jsonify({'response': response}), 200

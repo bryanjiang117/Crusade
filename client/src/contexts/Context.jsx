@@ -24,7 +24,6 @@ const ContextProvider = (props) => {
   }
 
   async function generate(prompt) {
-    console.log(prevPrompts, prevResults);
     if (prevPrompts.length !== prevResults.length) {
       console.error("Prev prompt and results arrays are of different lengths");
       return;
