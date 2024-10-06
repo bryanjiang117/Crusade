@@ -24,7 +24,7 @@
 
 .sidebar .menu:hover {
   background-color: #e2e6eb;
-}
+} 
 
 .sidebar .new-chat {
   margin-top: 50px;
@@ -43,8 +43,16 @@
   overflow: hidden;
 }
 
+.sidebar .chat-name {
+  margin: auto;
+}
+
 .sidebar .new-chat:hover {
   background-color: #cfd5db;
+}
+
+.sidebar .active-chat {
+  background-color: #e5e8eb;
 }
 
 .sidebar .new-chat p {
@@ -52,7 +60,6 @@
   text-wrap: nowrap;
   animation: fadeIn 1s;
   margin: 0 5px -2px -5px;
-  font-weight: 600;
 }
 
 .sidebar .new-chat img {
@@ -69,6 +76,7 @@
 .sidebar .recent-title {
   margin-top: 30px;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 .sidebar .recent-entry {
@@ -83,7 +91,7 @@
 }
 
 .sidebar .recent-entry:hover {
-  background-color: #e2e6eb;
+  background-color: #e2e6eb !important;
 }
 
 .sidebar .bottom {

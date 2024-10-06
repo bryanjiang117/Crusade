@@ -94,7 +94,6 @@ const Main = () => {
           result: resultData,
         })]);
       } else {
-        console.log('not generating', getPrevPrompts().slice(0, -1))
         setChatHistory(getPrevPrompts().map((prompt, i) => {
           return {
             prompt: prompt,

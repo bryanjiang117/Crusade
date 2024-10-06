@@ -5,7 +5,7 @@ import { Context } from "../../contexts/Context";
 import { Tooltip } from "react-tooltip";
 const Sidebar = () => {
   const [extended, setExtended] = React.useState(true);
-  const { startChat, openChat, chatSessions } =
+  const { startChat, openChat, chatSessions, curChatSessionID } =
     React.useContext(Context);
 
   let sidebarWidth;
@@ -48,7 +48,7 @@ const Sidebar = () => {
             place={"bottom"}
             style={{ padding: "5px", fontSize: "12px", color: "#f0f4f9" }}
           />
-          {!extended && <p>New Chat</p>}
+          {!extended && <p className='chat-name'>New Chat</p>}
         </div>
         {!extended && (
           <div className="recent">
@@ -61,15 +61,15 @@ const Sidebar = () => {
                 <div 
                   key={i}
                   onClick={() => openChat(key)}
-                  className='recent-entry'
+                  className={`recent-entry ${key === curChatSessionID ? 'active-chat' : ''}`}
                 >
                   <img src={assets.message_icon} alt="" />
-                  <p>
+                  <p className='chat-name'>
                     {firstPrompt.slice(0, 24)} {firstPrompt.length > 24 && "..."}
                   </p>
                 </div>
               )
-            }) : 'bruh wtf'}
+            }) : null}
           </div>
         )}
       </div>

@@ -107,7 +107,7 @@ const ContextProvider = (props) => {
     setResultData("")
     setCurChatSessionID(chatSessionID);
     setStartOfChat(chatSessions.get(chatSessionID).prevPrompts.length === 0);
-    console.log('new opened chat', chatSessions.get(chatSessionID) ? chatSessions.get(chatSessionID).prevPrompts[0] : null);
+    // console.log('new opened chat', chatSessions.get(chatSessionID) ? chatSessions.get(chatSessionID).prevPrompts[0] : null);
   }
 
   const onSent = async (prompt) => {
