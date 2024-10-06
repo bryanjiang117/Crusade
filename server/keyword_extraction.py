@@ -66,7 +66,7 @@ load_dotenv()
 def get_titles(text):
     prompt_prefix = '''
     For the following text, find the names of movies or shows and put print their unabbreviated name separated by a new line. 
-    Do not output any other text. 
+    Do not output any other text. If you cannot find any names, output "No titles found".
     The text begins now:
     '''
     prompt = prompt_prefix + text
@@ -76,4 +76,8 @@ def get_titles(text):
     for title in titles:
         print(title)
     print('----------------end of title matches found----------------\n')
+
+    if len(titles) == 1 and titles[0] == 'No titles found':
+        titles = []
+
     return titles
