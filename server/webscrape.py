@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from typing import List
 import requests
+import logging
 
 load_dotenv()
 
@@ -13,6 +14,8 @@ reddit = praw.Reddit(
   username='Dear-Conclusion-5816',
   password=os.getenv('REDDIT_PASSWORD'),
 )
+
+logging.debug('Reddit client ID:', os.getenv('REDDIT_CLIENT_ID'))
 
 def googleSearch(query: str):
     api_key = os.getenv('GOOGLE_API_KEY')
