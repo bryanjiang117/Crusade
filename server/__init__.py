@@ -4,7 +4,7 @@ from flask_cors import CORS
 from flask import Flask
 import logging
 
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.DEBUG)
 
 load_dotenv()
 

@@ -15,7 +15,7 @@ reddit = praw.Reddit(
   password=os.getenv('REDDIT_PASSWORD'),
 )
 
-logging.debug('Reddit client ID:', os.getenv('REDDIT_CLIENT_ID'))
+logging.debug(f'Reddit client ID: {os.getenv('REDDIT_CLIENT_ID')}')
 
 def googleSearch(query: str):
     api_key = os.getenv('GOOGLE_API_KEY')
