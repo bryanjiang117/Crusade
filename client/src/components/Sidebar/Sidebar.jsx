@@ -5,12 +5,9 @@ import { Context } from "../../contexts/Context";
 import { Tooltip } from "react-tooltip";
 const Sidebar = () => {
   const [extended, setExtended] = React.useState(true);
-  const { onSent, prevPrompts, setRecentPrompt, newChat } =
+  const { startChat, openChat, chatSessions } =
     React.useContext(Context);
-  const loadPrompt = async (prompt) => {
-    setRecentPrompt(prompt);
-    await onSent(prompt);
-  };
+
   let sidebarWidth;
   if (!extended) {
     sidebarWidth = "20%";
@@ -36,7 +33,7 @@ const Sidebar = () => {
           style={{ padding: "5px", fontSize: "12px", color: "#f0f4f9" }}
         />
         <div
-          onClick={() => newChat()}
+          onClick={() => startChat()}
           className="new-chat"
           data-tooltip-id="new-chat"
           data-tooltip-content="New Chat"
@@ -56,20 +53,23 @@ const Sidebar = () => {
         {!extended && (
           <div className="recent">
             <p className="recent-title">Recent</p>
-            {prevPrompts.map((item, index) => {
+            
+            {chatSessions.size > 0 ? 
+            chatSessions.entries().map(([key, val], i) => {
+              const firstPrompt = val.prevPrompts.length > 0 && val.prevPrompts[0] ? val.prevPrompts[0] : "New chat";
               return (
-                <div
-                  key={index}
-                  onClick={() => loadPrompt(item)}
-                  className="recent-entry"
+                <div 
+                  key={i}
+                  onClick={() => openChat(key)}
+                  className='recent-entry'
                 >
                   <img src={assets.message_icon} alt="" />
                   <p>
-                    {item.prompt.slice(0, 24)} {item.prompt.length > 24 && "..."}
+                    {firstPrompt.slice(0, 24)} {firstPrompt.length > 24 && "..."}
                   </p>
                 </div>
-              );
-            })}
+              )
+            }) : 'bruh wtf'}
           </div>
         )}
       </div>

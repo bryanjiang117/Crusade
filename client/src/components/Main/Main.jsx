@@ -7,20 +7,21 @@ import { Tooltip } from "react-tooltip";
 
 const Main = () => {
   const {
+    getPrevPrompts,
+    getPrevResults,
     onSent,
     recentPrompt,
-    prevPrompts,
-    prevResults,
-    loadingState,
+    generating,
     loading,
     resultData,
     setInput,
     input,
     startChat,
     startOfChat,
+    curChatSessionID,
     Markdown,
   } = React.useContext(Context);
-  
+  const [chatHistory, setChatHistory] = React.useState([]);
 
   const cardPrompts = [
     "What are some long TV series similar to Game of Thrones?",
@@ -60,12 +61,13 @@ const Main = () => {
     }
   }, [startOfChat]);
 
+  function scrollToBottom() {
+    setTimeout(() => {
+      scrollContainer.current.scroll({top: scrollContainer.current.scrollHeight, behavior: 'smooth'});
+    }, 100);
+  }
+
   React.useEffect(() => {
-    function scrollToBottom() {
-      setTimeout(() => {
-        scrollContainer.current.scroll({top: scrollContainer.current.scrollHeight, behavior: 'smooth'});
-      }, 100);
-    }
 
     function shouldScroll() {
       const atBottom = scrollContainer.current.scrollTop >= scrollContainer.current.scrollHeight - scrollContainer.current.clientHeight
@@ -79,6 +81,34 @@ const Main = () => {
     }
   }, [resultData])
 
+  // Update chat history when generating (using chatHistory state because it's different depending on whether it's generating or not and causes issues if not separated)
+  React.useEffect(() => {
+    if (!startOfChat) {
+      if (generating) {
+        setChatHistory([...getPrevPrompts().slice(0, -1).map((prompt, i) => ({
+          prompt: prompt, 
+          result: getPrevResults()[i],
+        })),
+        ({
+          prompt: recentPrompt,
+          result: resultData,
+        })]);
+      } else {
+        console.log('not generating', getPrevPrompts().slice(0, -1))
+        setChatHistory(getPrevPrompts().map((prompt, i) => {
+          return {
+            prompt: prompt,
+            result: getPrevResults()[i],
+          }
+        }));
+      }
+    }
+  }, [curChatSessionID, startOfChat, recentPrompt, resultData]);
+
+  function send(prompt) {
+    onSent(prompt)
+    scrollToBottom()
+  }
 
   // Start the chat
 
@@ -113,14 +143,7 @@ const Main = () => {
             </>
         ) : (
           <div className="result-container">
-            {[...prevPrompts.slice(0, -1).map((prompt, i) => ({
-              prompt: prompt, 
-              result: prevResults[i],
-            })),
-            ({
-              prompt: recentPrompt,
-              result: resultData,
-            })].map(({prompt: prompt, result: result}, i) => {
+            {chatHistory.map(({prompt: prompt, result: result}, i) => {
               return (
                   <div className="result" key={i}>
                     <div className="result-title">
@@ -128,10 +151,10 @@ const Main = () => {
                     </div>
                     <div className="result-data">
                       <img
-                        src={assets.gemini_icon}
+                        src={assets.icon}
                         alt=""
                       />
-                      {loading && i === prevPrompts.length - 1 ? (
+                      {loading && i === getPrevPrompts().length - 1 ? (
                         <div className="loader">
                           <hr />
                           <hr />

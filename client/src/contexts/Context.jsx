@@ -6,12 +6,26 @@ export const Context = React.createContext();
 const ContextProvider = (props) => {
   const [input, setInput] = React.useState("");
   const [recentPrompt, setRecentPrompt] = React.useState("");
-  const [prevPrompts, setPrevPrompts] = React.useState([]);
-  const [prevResults, setPrevResults] = React.useState([]);
+  const [generating, setGenerating] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [resultData, setResultData] = React.useState("");
   const [startOfChat, setStartOfChat] = React.useState(true);
-  const [chatSession, setChatSession] = React.useState(null);
+  const [curChatSessionID, setCurChatSessionID] = React.useState(null);
+  const [chatSessions, setChatSessions] = React.useState(new Map());
+
+  function getPrevPrompts() {
+    if (chatSessions.size > 0) {
+      return chatSessions.get(curChatSessionID).prevPrompts;
+    }
+    return [];
+  }
+
+  function getPrevResults() {
+    if (chatSessions.size > 0) {
+      return chatSessions.get(curChatSessionID).prevResults;
+    }
+    return [];
+  }
 
   const delayPara = (index, nextWord) => {
     setTimeout(() => {
@@ -24,6 +38,8 @@ const ContextProvider = (props) => {
   }
 
   async function generate(prompt) {
+    const prevPrompts = getPrevPrompts();
+    const prevResults = getPrevResults();
     if (prevPrompts.length !== prevResults.length) {
       console.error("Prev prompt and results arrays are of different lengths");
       return;
@@ -41,7 +57,7 @@ const ContextProvider = (props) => {
       },
       body: JSON.stringify({
         prompt: prompt,
-        session_id: chatSession,
+        session_id: curChatSessionID,
       })
     });
     
@@ -50,8 +66,10 @@ const ContextProvider = (props) => {
     // console.log('response', response);
     return response;
   }
+
   // change
   async function newChat() {
+    if (generating) return;
     const res = await fetch('/new_chat', {
       method: 'POST',
       headers: {
@@ -61,24 +79,49 @@ const ContextProvider = (props) => {
   
     const data = await res.json();
     const response = data.session_id;
-    // console.log('new chat', response);
+    setCurChatSessionID(response)
+
     return response;
   }
 
   async function startChat() {
-    setStartOfChat(true);
-    setChatSession(await newChat());
-  };
-
-  const onSent = async (prompt) => {
+    if (generating) return;
     setInput("");
     setResultData("");
+    setStartOfChat(true);
+    const chatSessionID = await newChat()
+    // Add new chat session to chatSessions
+    const updatedChatSessions = chatSessions
+    updatedChatSessions.set(chatSessionID, {
+      prevPrompts: [],
+      prevResults: [],
+    });
+    setChatSessions(updatedChatSessions);
+    openChat(chatSessionID);
+  };
+
+  async function openChat(chatSessionID) {
+    if (generating) return;
+    setInput("")
+    setRecentPrompt("")
+    setResultData("")
+    setCurChatSessionID(chatSessionID);
+    setStartOfChat(chatSessions.get(chatSessionID).prevPrompts.length === 0);
+    console.log('new opened chat', chatSessions.get(chatSessionID) ? chatSessions.get(chatSessionID).prevPrompts[0] : null);
+  }
+
+  const onSent = async (prompt) => {
+    if (generating) return;
+    setInput("");
+    setResultData("");
+    setGenerating(true);
     setLoading(true);
     setStartOfChat(false)
 
+    const curChatSession = chatSessions.get(curChatSessionID);
     // Placeholder for loading animation
-    setPrevPrompts((prev) => [...prev, null]);
-    setPrevResults((prev) => [...prev, null]);
+    curChatSession.prevPrompts.push(null);
+    curChatSession.prevResults.push(null);
 
     let response;
     if (prompt !== undefined) {
@@ -90,30 +133,34 @@ const ContextProvider = (props) => {
       setRecentPrompt(input);
       response = await generate(input);
     } 
-    setPrevPrompts((prev) => [...prev.slice(0, -1), prompt || input]);
-    setPrevResults((prev) => [...prev.slice(0, -1), response]);
+    // Replace placeholder with value
+    curChatSession.prevPrompts[curChatSession.prevPrompts.length - 1] = prompt || input;
+    curChatSession.prevResults[curChatSession.prevResults.length - 1] = response
     let newResponseArray = response.split(" ");
     for (let i = 0; i < newResponseArray.length; i++) {
       const nextWord = newResponseArray[i];
       delayPara(i, nextWord + " ");
     }
     setLoading(false);
+    setTimeout(() => setGenerating(false), 10 * newResponseArray.length + 100);
   };
 
   const contextValue = {
-    prevPrompts,
-    setPrevPrompts,
-    prevResults,
-    setPrevResults,
+    getPrevPrompts,
+    getPrevResults,
     onSent,
     setRecentPrompt,
     recentPrompt,
+    generating,
     loading,
     resultData,
     input,
     setInput,
     startChat,
+    openChat,
     startOfChat,
+    chatSessions,
+    curChatSessionID,
     Markdown,
   };
 

@@ -49,6 +49,6 @@ def init_routes(app):
 
     response = gemini_chat_generate(gemini_input, session_id)
 
-    print('RESPONSE', response)
+    # print('RESPONSE', response)
 
     return jsonify({'response': response}), 200

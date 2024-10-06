@@ -237,7 +237,7 @@
 
 .main .loader hr {
   background-color: #f6f7f8;
-  background: linear-gradient(33deg, rgba(240, 244, 249, 0.2) 0%, rgba(233, 238, 246, 1) 25%, rgba(72, 127, 237, 1) 50%, rgba(233, 238, 246, 1) 75%, rgba(240, 244, 249, 0.2) 100%);
+  background: linear-gradient(33deg, rgba(240, 244, 249, 0.2) 0%, rgba(233, 238, 246, 1) 25%, rgb(23, 16, 15) 50%, rgba(233, 238, 246, 1) 75%, rgba(40, 14, 11, 0.2) 100%);
   background-size: 800px 50px;
   height: 15px;
   border-radius: 4px;
