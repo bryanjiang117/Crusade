@@ -1,5 +1,5 @@
 import React from "react";
-import "./Main.css";
+import "./Main.scss";
 import { assets } from "../../assets/assets";
 import { Context } from "../../contexts/Context";
 import "react-tooltip/dist/react-tooltip.css";

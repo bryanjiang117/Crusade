@@ -1,5 +1,5 @@
 import React from "react";
-import "./Sidebar.css";
+import "./Sidebar.scss";
 import { assets } from "../../assets/assets";
 import { Context } from "../../contexts/Context";
 import { Tooltip } from "react-tooltip";
