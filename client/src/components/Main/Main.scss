@@ -280,6 +280,20 @@
   line-height: 1.8;
 }
 
+@media(max-width: 900px) {
+  .main .cards .card {
+    height: 175px;
+    padding: 2rem;
+  }
+}
+
+@media(max-width: 750px) {
+  .main .cards .card {
+    height: 150px;
+    padding: 1.5rem;
+  }
+}
+
 @media(max-width: 600px) {
   .main {
       overflow: hidden;
@@ -303,7 +317,7 @@
 
   .main .cards .card {
       height: 150px;
-      padding: 1.5rem;
+      padding: 1.25rem;
   }
 
   .main .cards .card p {

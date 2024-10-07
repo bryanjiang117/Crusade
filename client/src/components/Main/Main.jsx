@@ -27,7 +27,7 @@ const Main = () => {
     "What are some long TV series similar to Game of Thrones?",
     "Recommend me a light-hearted sitcom with no plot at all",
     "Anime like Anohana and Violet Evergarden to make me cry",
-    "Need a comedy with plenty of sex jokes for movie night with the boys"
+    "Need a very unhinged comedy for movie night with the boys"
   ];
 
 
