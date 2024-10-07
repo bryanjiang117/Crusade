@@ -13,6 +13,10 @@
   color: #5f6368;
 }
 
+.main .title {
+  animation: fadeIn 1.5s;
+}
+
 .main .main-container {
   max-width: 900px;
   margin: auto;
@@ -20,25 +24,31 @@
   flex-direction: column;
 }
 
-.main .greet {
-  margin: 50px 0px;
-  font-size: 3.5rem;
-  color: #c4c7c5;
-  font-weight: 500;
-  padding: 20px;
+.main .start-of-chat {
+  animation: fadeIn 1.5s;
 }
 
-.main .greet span {
+.main .greet {
+  margin: 50px 0px;
+  padding: 20px;
+  font-size: 3.5rem;
+}
+
+.main .header {
   position: relative;
   display: inline-block;
   color: transparent;
-  background: -webkit-linear-gradient(16deg, #4285f4 0%, #9b72cb 9%, #d96570 20%, #d96570 24%, #9b72cb 35%, #4285f4 44%, #9b72cb 50%, #d96570 56%, #ffffff 75%, #ffffff 100%);
-  background: linear-gradient(74deg, #4285f4 0%, #9b72cb 9%, #d96570 20%, #d96570 24%, #9b72cb 35%, #4285f4 44%, #9b72cb 50%, #d96570 56%, #ffffff 75%, #ffffff 100%);
+  background: -webkit-linear-gradient(16deg, #8a1917 0%, #e73535 9%, #c14f7b 20%, #aa6389 24%, #bb3556 35%, #6c4978 44%, #9b72cb 50%, #968cc7 56%, #50589e 75%, #71b6cb 100%);
+  background: linear-gradient(16deg, #8a1917 0%, #e73535 9%, #c14f7b 20%, #aa6389 24%, #bb3556 35%, #6c4978 44%, #9b72cb 50%, #968cc7 56%, #50589e 75%, #71b6cb 100%);
   background-size: 400% 100%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient-animation 3s;
+}
+
+.main .subtext {
+  color: #484745;
 }
 
 @keyframes gradient-animation {
@@ -161,7 +171,6 @@
 
 .main .bottom-info a {
   color: #1f1f1f;
-
 }
 
 .main .result-container {
@@ -172,6 +181,7 @@
   padding-bottom: 3rem;
   max-height: calc(100vh - 79px - 100px);
   overflow-y: auto;
+  animation: fadeIn 1.5s;
 }
 
 .main .result-container::-webkit-scrollbar {
@@ -345,5 +355,16 @@
 
   .main .loader hr {
       height: 15px;
+  }
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

@@ -119,16 +119,18 @@ const Main = () => {
   return (
     <div className="main">
       <div className="nav">
-        <p>Crusader</p>
+        {!startOfChat ? (
+          <p className='title'>Crusader</p>
+        ) : null}
       </div>
       <div className="main-container">
         {startOfChat ? (
-            <>
+            <div className="start-of-chat" key={curChatSessionID}>
               <div className="greet">
-                <p>
+                <p className='header'>
                   <span>Crusader</span>
                 </p>
-                <p>Where would you like to go?</p>
+                <p className='subtext'><span>Where would you like to go</span><span style={{fontSize: '1.5rem'}}>&nbsp;</span><span id='question-mark'>?</span></p>
               </div>
               <div className="cards">
                 {cardPrompts.map((prompt, i) => {
@@ -139,9 +141,9 @@ const Main = () => {
                   );
                 })}
               </div>
-            </>
+            </div>
         ) : (
-          <div className="result-container">
+          <div className="result-container" key={curChatSessionID}>
             {chatHistory.map(({prompt: prompt, result: result}, i) => {
               return (
                   <div className="result" key={i}>
